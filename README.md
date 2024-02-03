@@ -2,7 +2,7 @@
 
 随着我国道路交通事业的飞速发展和人们生活水平的逐渐提高以及各大城市道路交通系统的不断完善，交通事故猛增成了交通管理所面临的严重问题，如图。  针对酒后驾驶和超速驾驶我国已经从法律层面进行了规范和治理，但对于分心驾驶和疲劳驾驶至今仍然缺乏有效的预防和治理措施。
 
-<div align=center><img  src ="https://github.com/zihaonian/Ti_Cup_NUEDC-2022-10-B/blob/main/res/Reversing into storage.jpg"/></div>
+<div align=center><img  src ="https://github.com/zihaonian/Internet--8/blob/main/res/Traffic_accident_property_damage.jpg"/></div>
 
 本项目设计一套基于Raspberry Pi和STM32微控制器驾驶员驾驶状态及心率血氧检测系统。在Raspberry Pi里植入Linux系统，Linux系统中搭建Opencv和Dlib环境，STM32微控制器作为Raspberry Pi的协处理器。  车辆行驶过程中，Raspberry Pi通过摄像头获取每帧图像，计算出驾驶员头部估计值（计算头部在三维空间中偏转角度），嘴部的开合度（MAR）和眼部的闭合程度（EAR）对驾驶员进行状况监测（如图2）。同时Raspberry Pi与 STM32通信，接收MAX30100模块采集的心率信息。该系统可实时对非正常驾驶中的驾驶员进行震动，语音和RGB灯光提醒。实现优势互补的“融合检测”。该装置完成了接触式设备和非接触式设备的融合监测，在驾驶员安全驾驶领域具有较为良好的应用前景。  
 
@@ -49,17 +49,13 @@ Ti_Cup_NUEDC-2022-10-B/
 
 本项目是基于机器视觉和心率变异性的行车安全监测装置，在Raspberry Pi中使用Linux系统，在Linux系统中搭建Opencv和Dlib库环境，调用face­recognition模块与Dlib库中HOG特征对驾驶员眼部特征点标注，计算驾驶员眼睛闭合程度，开始实时进行驾驶员驾驶状态监测,如图所示：
 
-<div align=center><img  src ="https://github.com/zihaonian/Internet--8/blob/main/res/Traffic_accident_property_damage.jpg"/></div>
+<div align=center><img  src ="https://github.com/zihaonian/Internet--8/blob/main/res/System_architecture.jpg"/></div>
 
 同时,STM32开始进行驾驶员心率的监测，当测定的疲劳值达到一定阈值时，Raspberry Pi与STM32通过串口通信，控制震动模块逐渐加大震动并通过声音播报提醒驾驶员。同时本项目所设计的装置在原有的开源项目上进行创新和优化，如：增加多维度的特征点来提高识别精度，不仅仅对疲劳驾驶进行识别，还对分心驾驶进行检测。在原有项目基础上进行优化，为了降低世界坐标系投影到相机二维图像的距离偏差，引入头部姿势估计算法，相似计算三维空间中真实投影的欧拉角。
 
 ### 系统硬件介绍
 
-为了精确检测到车库位置，对摄像头采集到的视频进行实时的色块检测。对视频图像进行二值化处理并设定一个30×140的ROI区域，小车前进过程中不断检测并统计该区域中黑色像素点个数，当像素数达到设定阈值即表示检测到了车库交接处，通过IO口发送高电平信号给单片机，完成车库检测。车库检测方法示意图，如图所示。
-
-<div align=center><img  src ="https://github.com/zihaonian/Internet--8/blob/main/res/System_architecture.jpg"/></div>
-
-#### STM32	
+#### **STM32**	
 
 STM32系统原理图如图，系统板搭载STM32，其最高的工作频率可以达72MHz；具有串行的单线调试和JTAG接口，2个USART接口可进行全双工通用同步/异步串行收发，STM32连接有监测驾驶员心率模块和震动提醒模块。                  
 
@@ -67,7 +63,7 @@ STM32系统原理图如图，系统板搭载STM32，其最高的工作频率可�
 
 <div align=center><img  src ="https://github.com/zihaonian/Internet--8/blob/main/res/STM32_system_framework.png"/></div>
 
-#### MAX-30100
+#### **MAX-30100**
 
 MAX-30100是一种非侵入式集成的心率和血氧饱和监测模块，其依靠两个发光二极管和一个光检测器，驾驶员只需将手指紧贴传感器之上，便可使系统通过IIC协议随时读取驾驶员心率。
 
@@ -75,7 +71,7 @@ MAX-30100是一种非侵入式集成的心率和血氧饱和监测模块，其�
 
 该模块中红光、红外光都用来测量驾驶员血液中的氧含量。含氧血液中传递更 多的红光并吸收更多的红外光，而脱氧血液中传递更多的红外光并 吸收红光，读取两个光源的吸收电平，通过测量心脏向外泵的血液 中的氧合血红蛋白增加和减少之间的时间，确定脉搏率（心率）。
 
-#### Raspberry Pi
+#### **Raspberry Pi**
 
 
 Raspberry Pi 4B采用官方的Raspbian操作系统，搭载Opencv环境，大(主)芯片为Broadcom的BCM2711BO，最高主频1.5GHz，4个CortexA72内核，支持64位。Raspberry Pi4B配备500万像素的广角摄像头，其静止图像分辨率可达2592*1944px，并支持720p与1080p视频。
@@ -84,7 +80,7 @@ Raspberry Pi 4B采用官方的Raspbian操作系统，搭载Opencv环境，大(�
 
 ### 系统算法介绍
 
-#### 头部姿态估计（Head Pose Estimation）
+#### **头部姿态估计（Head Pose Estimation）**
 
 通过一幅面部图像来获得头部的姿态角. （示意图：图表9）在3D空间中，表示物体的旋转可以由三个欧拉角(EulerAngle)来表示：分别计算pitch(围绕X轴旋转)，yaw(围绕Y轴旋转)和roll(围绕Z轴旋转)，分别学名俯仰角、偏航角和滚转角，通俗是抬头、摇头和转头。
 
@@ -102,7 +98,7 @@ HeadPoseEstimation算法的步骤为：
 - **平移矩阵**：物体相对于相机的空间位置关系矩阵，用**t**表示
 - **旋转矩阵**：物体相对于相机的空间姿态关系矩阵，用**R**表示
 
-坐标系转换分析，分别是：世界坐标系***（U,V,W）***，相机坐标系***（X,Y,Z）*** ， 图像中心坐标系***（U,V）***和像素坐标系  ***（X,Y）***，如下图：
+坐标系转换分析，分别是：世界坐标系***（U,V,W）***相机坐标系***（X,Y,Z）***  图像中心坐标系***（U,V）***和像素坐标系  ***（X,Y）***如下图：
 
 <div align=center><img  src ="https://github.com/zihaonian/Internet--8/blob/main/res/Coordinate_system_mapping.png"/></div>
 
@@ -114,7 +110,7 @@ HeadPoseEstimation算法的步骤为：
 
 <div align=center><img  src ="https://github.com/zihaonian/Internet--8/blob/main/res/formula2.jpg"/></div>
 
-知道足够数量的点对应关系  ***（U,V,W）***  和  ***（X,Y,Z）*** ，便可以求解未知数。
+知道足够数量的点对应关系  ***（U,V,W）***  和  ***（X,Y,Z）*** 便可以求解未知数。
 
 同理：可以得到相机坐标系到像素坐标系的关系
 
@@ -126,7 +122,7 @@ HeadPoseEstimation算法的步骤为：
 
 确定pose是：确定从3Dmodel到图片中人脸的仿射变换矩阵，包括旋转和平移的信息；其实OpenCV已经给我们提供了求解PnP问题的函数 `solvePnp()` ，其输出结果包括旋转向量**roatationvector**和平移向量**translationvector**，本项目只需要关心旋转信息，所以主要将对旋转向量进行操作。通过引入四元数处理旋转向量就可以得到欧拉角。
 
-#### Eye Aspect Ratio
+#### **Eye Aspect Ratio**
 
 计算眼睛长宽比**（EAR）**,当人眼睁开时，**EAR**在某个值上下波动，当人眼闭合时，**EAR**迅速下降，理论上会接近于零，当时人脸检测模型还没有这么精确。所以我们认为当EAR低于某个阈值时，眼睛处于闭合状态。为检测眨眼次数，需要设置同一次眨眼的连续帧数。眨眼速度比较快，一般1~3帧就完成了眨眼动作。两个阈值都要根据实际情况设置，本项目加入了自动调参算法，解决了因人眼型差异而导致的识别精确度不高问题。
 
